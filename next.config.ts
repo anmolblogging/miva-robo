@@ -8,7 +8,15 @@ const config: NextConfig = {
   // Matches the WordPress URLs exactly (all of them end in a slash).
   trailingSlash: true,
   outputFileTracingRoot: path.join(__dirname),
-  images: { formats: ["image/avif", "image/webp"], qualities: [75, 90] },
+  images: {
+    // Keep each resized image for 31 days and make fewer versions (one format,
+    // fewer sizes). This keeps Vercel's free image limit (5,000 a month) low.
+    formats: ["image/webp"],
+    qualities: [75, 90],
+    minimumCacheTTL: 2678400,
+    deviceSizes: [640, 828, 1080, 1920],
+    imageSizes: [64, 128, 256, 384],
+  },
   async redirects() {
     return [
       { source: "/wp-sitemap.xml", destination: "/sitemap.xml", permanent: true },
