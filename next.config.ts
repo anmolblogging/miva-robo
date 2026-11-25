@@ -9,6 +9,10 @@ const config: NextConfig = {
   trailingSlash: true,
   outputFileTracingRoot: path.join(__dirname),
   images: {
+    // Serve images as they are, without Vercel resizing. The free plan's
+    // monthly image allowance (shared by all projects) ran out, and resized
+    // images failed with 402. Images in /public are pre-compressed instead.
+    unoptimized: true,
     // Keep each resized image for 31 days and make fewer versions (one format,
     // fewer sizes). This keeps Vercel's free image limit (5,000 a month) low.
     formats: ["image/webp"],
